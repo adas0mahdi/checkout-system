@@ -1,15 +1,6 @@
 <template>
-    <h1 class="bg-green-500">
-        ADAS MAHDI  🤘 
-    </h1>
+  <router-view />
 </template>
-
-<script>
-    export default {
-        
-    }
+<script setup>
+import { RouterView } from 'vue-router';
 </script>
-
-<style lang="postcss" scoped>
-
-</style>
