@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Product from '@/components/product/Index.vue';
 import ProductShow from '@/components/product/Show.vue';
 import ChuckOut from '@/components/order/Index.vue';
+import Nav from '@/components/pageComponents/nav.vue';
+
 
 const routes = [
   {
