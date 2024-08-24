@@ -1,11 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '@/HomePage.vue';
+import Product from '@/components/product/Index.vue';
+import ProductShow from '@/components/product/Show.vue';
+import ChuckOut from '@/components/order/Index.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomePage
+    component: Product
+  },
+  {
+    path: '/Product/:slug',
+    name: 'Product/Show',
+    component: ProductShow
+  },
+  {
+    path: '/ChuckOut',
+    name: 'ChuckOut',
+    component: ChuckOut
   },
 
 ];
