@@ -1,21 +1,16 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
-import { useStore } from "vuex";
+import { store } from '../../store';
 import Pagination from "../pageComponents/Pagination.vue";
 
-// Access the Vuex store
-const store = useStore();
 const itemsPerPage = ref(6);
 const currentPage = ref(1);
-
-// Map the products from the Vuex store to a computed property
-const products = computed(() => store.state.products);
 
 // Computed property for paginated products
 const paginatedCards = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage.value;
     const end = start + itemsPerPage.value;
-    return products.value.slice(start, end);
+    return store.products.slice(start, end);
 });
 
 const handlePageChange = (page) => {
@@ -24,22 +19,12 @@ const handlePageChange = (page) => {
 
 // Fetch products when the component is mounted
 onMounted(() => {
-    store
-        .dispatch("getProducts")
-        .then(() => {
-            // Handle successful dispatch if needed
-        })
-        .catch((error) => {
-            console.error("Error fetching products:", error);
-        });
+    store.getProducts();
 });
 
 // Method to format the currency
 function formatCurrency(amount) {
-    // Convert amount from cents to dollars
     amount = amount / 100;
-
-    // Format the amount as currency (USD)
     return amount.toLocaleString("en-US", {
         style: "currency",
         currency: "USD",
@@ -50,7 +35,7 @@ function formatCurrency(amount) {
 <template>
     <div
         class="flex m-10 flex-wrap gap-5 justify-center items-center"
-        v-if="products.length"
+        v-if="store.products.length"
     >
         <div
             v-for="product in paginatedCards"
@@ -101,7 +86,7 @@ function formatCurrency(amount) {
                         {{ formatCurrency(product.price) }}
                     </p>
                     <button
-                           @click="$store.commit('addToCart', product)"
+                        @click="store.addToCart(product)"
                         class="w-fit items-center px-4 py-2 bg-green-300 rounded-md flex gap-1"
                     >
                         <img
@@ -119,7 +104,7 @@ function formatCurrency(amount) {
         <p>No products available.</p>
     </div>
     <Pagination
-        :total-items="products.length"
+        :total-items="store.products.length"
         :items-per-page="itemsPerPage"
         :current-page="currentPage"
         @update:currentPage="handlePageChange"

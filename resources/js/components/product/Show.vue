@@ -1,35 +1,32 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useStore } from "vuex";
+import { store } from '../../store';
 import { useRoute } from "vue-router";
 
-const store = useStore();
 const route = useRoute();
 const product = ref(null);
 const loading = ref(true);
 
-onMounted(() => {
+onMounted(async () => {
     const slug = route.params.slug;
 
     // Check if products are already in the store
-    if (store.state.products.length > 0) {
-        product.value = store.getters.getProductBySlug(slug);
+    if (store.products.length > 0) {
+        product.value = store.getProductBySlug(slug);
         loading.value = false;
     } else {
         // If not, fetch the products first
-        store
-            .dispatch("getProducts")
-            .then(() => {
-                product.value = store.getters.getProductBySlug(slug);
-                loading.value = false;
-                if (!product.value) {
-                    console.error("Product not found.");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching products:", error);
-                loading.value = false;
-            });
+        try {
+            await store.getProducts();
+            product.value = store.getProductBySlug(slug);
+            loading.value = false;
+            if (!product.value) {
+                console.error("Product not found.");
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            loading.value = false;
+        }
     }
 });
 
@@ -73,7 +70,7 @@ function formatCurrency(amount) {
                             {{ formatCurrency(product.price) }}
                         </p>
                         <button 
-                        @click="$store.commit('addToCart', product)"
+                        @click="store.addToCart(product)"
                         class="w-fit items-center px-4 py-2 bg-green-300 rounded-md flex gap-1">
                             <img src="/images/shopping-cart.png" class="w-[25px]" alt="shopping cart" />
                             <p>Add To The Cart</p>
