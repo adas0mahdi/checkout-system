@@ -101,6 +101,7 @@ function formatCurrency(amount) {
                         {{ formatCurrency(product.price) }}
                     </p>
                     <button
+                           @click="$store.commit('addToCart', product)"
                         class="w-fit items-center px-4 py-2 bg-green-300 rounded-md flex gap-1"
                     >
                         <img

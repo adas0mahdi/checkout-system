@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'; // Use 'createStore' instead of 'new Vuex.Store'
+import { createStore } from 'vuex';
 import axios from 'axios';
 
 export const store = createStore({
@@ -13,7 +13,6 @@ export const store = createStore({
     },
     addToCart(state, product) {
       let checkProductInCart = state.cart.findIndex(item => item.slug === product.slug);
-      
       if (checkProductInCart !== -1) {
         state.cart[checkProductInCart].quantity += 1;
       } else {
@@ -32,16 +31,22 @@ export const store = createStore({
   },
   actions: {
     getProducts({ commit }) {
-      axios.get('/api/products')
+      return axios.get('/api/products') // Add return here
         .then(response => {
           commit('setProducts', response.data);
         })
         .catch(error => {
           console.log(error);
+          throw error; // Rethrow the error so it can be caught in the component
         });
     },
     clearCart({ commit }) {
       commit('setCart', []);
     },
   },
+  getters: {
+    getProductBySlug: (state) => (slug) => {
+      return state.products.find(product => product.slug === slug);
+    },
+  }
 });

@@ -1,9 +1,9 @@
 <script setup></script>
 
 <template>
-  <div class="fixed top-4 w-full flex justify-center z-50">
+  <div class="fixed top-4 w-full flex justify-center z-50 ">
     <nav
-      class="w-full max-w-screen-xl px-6 py-3 mx-auto text-black bg-[#eeeeeec0] border shadow-md rounded-xl border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+      class="w-full max-w-screen-xl mx-4 px-6 py-3 text-black bg-[#eeeeeec0] border shadow-md rounded-xl border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
     >
       <div class="flex items-center justify-between text-blue-gray-900">
         <a
@@ -23,7 +23,7 @@
                 href="/swiperJs"
                 class="flex items-center transition-colors hover:text-blue-500"
               >
-                swiperJs
+                .........
               </a>
             </li>
           </ul>

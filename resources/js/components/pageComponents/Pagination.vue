@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
     totalItems: Number,
@@ -13,20 +13,8 @@ const totalPages = computed(() =>
     Math.ceil(props.totalItems / props.itemsPerPage)
 );
 
-// Watch for changes in totalItems and itemsPerPage to recalculate totalPages
-
-watch(
-    [() => props.totalItems, () => props.itemsPerPage],
-    () => {
-        totalPages.value = Math.ceil(props.totalItems / props.itemsPerPage);
-        console.log("Total Pages:", totalPages.value);
-    },
-    { immediate: true }
-);
-
 const goToPage = (page) => {
     if (page >= 1 && page <= totalPages.value) {
-        console.log("Going to page:", page);
         emit("update:currentPage", page);
     }
 };
